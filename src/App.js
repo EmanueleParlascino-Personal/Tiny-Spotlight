@@ -82,7 +82,7 @@ function App() {
         console.log("this is in the state", suggestedAlbums, queries)
         gotAlbums = true}
       })
-    
+    //small change
     /*
     var offset = 5
     const artistsArray = [] 
