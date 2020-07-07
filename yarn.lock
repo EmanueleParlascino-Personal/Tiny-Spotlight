@@ -8591,6 +8591,11 @@ react-scripts@3.4.1:
   optionalDependencies:
     fsevents "2.1.2"
 
+react-spotify-api@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-spotify-api/-/react-spotify-api-3.0.0.tgz#7a8d92ce76267fa757e2ea51321c0d60b25f7bf0"
+  integrity sha512-q7X/fIBRVpx1iZfPocDl7Q7qv8nU+MFpMqQMMEcveQD9wQ8DWnDeSbkbiH9TW7NlyOc+G4IpuZ/9jk5Z306Itw==
+
 react@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
