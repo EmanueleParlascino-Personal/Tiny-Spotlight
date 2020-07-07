@@ -3,6 +3,9 @@
 		{
 			"name": "tiny-spotlight",
 			"path": ".."
+		},
+		{
+			"path": "..\\..\\..\\auth-server"
 		}
 	],
 	"settings": {}
