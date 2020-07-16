@@ -120,9 +120,18 @@ function App() {
       <p className = "statement">In today's musical landscape the competion is ruthless, it's not easy for and indipendent artists to get a chance at recognition and because of that
         there are countless songs that never get the appreciation they deserve. This is a place to try and give these artists some and for the people that are interested in finding them out.
       </p>
-      <h2>
-        Choose your way to find new artists!
-      </h2>
+      <form>
+        <label>
+          Enter an artist name
+          <input type="text" name="artist" />
+        </label>
+        <label>
+          Or a genre of music
+          <input type="text" name="artist" />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+      <br />
       <div>
         <a href = 'http://localhost:8888'>
           <button>Log In</button>
