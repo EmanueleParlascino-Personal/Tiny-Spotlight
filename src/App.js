@@ -20,44 +20,30 @@ function App() {
   const params = getHashParams()
 
   const [isLoggedIn, setIsLoggedIn] = useState(params.access_token ? true : false)
-  const [nowPlaying, setNowPLaying] = useState("Not Checked")
-  const [albumImage, setAlbumImage] = useState()
   const [suggestedAlbums, setAlbums] = useState([])
   const [searchArtist, setArtist] = useState("")
+  var queryDone = false
 
   if (isLoggedIn){
     spotifyWebAPI.setAccessToken(params.access_token)
-  }
-
-  function getNowPlaying(){
-    spotifyWebAPI.getMyCurrentPlaybackState()
-      .then((response) => {
-        setNowPLaying(response.item.name)
-        setAlbumImage(response.item.album.images[0].url)
-      })   
-  }
-
-  useEffect(() => {
-    
-  })
-  console.log("this is in the state", suggestedAlbums)
-  
-  
+  }  
 
   function getArtistsArray(){
     var gotAlbums = false
     var queries = 0
     
     if(suggestedAlbums.length == 0){
-      spotifyWebAPI.getRecommendations({seed_artists: "4NHQUGzhtTLFvgF5SZesLK", seed_tracks: "0c6xIDDpzE81m2q797ordA", seed_genres: ["jazz"],max_popularity: 10, limit: 20})
+      spotifyWebAPI.getRecommendations({ seed_genres: ["jazz"],max_popularity: 1, limit: 20})
         .then((response) => {
           if (suggestedAlbums.length === 0){
           setAlbums(response.tracks)
           queries++
           console.log("this is in the state", suggestedAlbums, queries)
-          gotAlbums = true}
+          gotAlbums = true
+          queryDone = true}
         })
       }
+    console.log("finished array", suggestedAlbums)  
     }  
 
     function handleSubmit(value){
@@ -66,6 +52,7 @@ function App() {
         console.log(response)
       })
     }
+    
   
   
   return (
@@ -74,38 +61,48 @@ function App() {
       <p className = "statement">In today's musical landscape the competion is ruthless, it's not easy for and indipendent artists to get a chance at recognition and because of that
         there are countless songs that never get the appreciation they deserve. This is a place to try and give these artists some and for the people that are interested in finding them out.
       </p>
-      <form  onSubmit = {handleSubmit()}>
-        <label>
-          Enter an artist name
-          <input type="text" name="artist" value = {searchArtist} onChange={e => setArtist(e.target.value)}/>
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-      <br />
-      <div>
-        <a href = 'http://localhost:8888'>
-          <button>Log In</button>
-        </a>
-        <button onClick = {getNowPlaying()}>Check now playing</button>
-        <button onClick = {getArtistsArray()}>Test query </button>
-        <button>By Mood</button>
-        <button>By Similar Artists</button>
-      </div>
 
-      <div>
-        <i>Recommended Albums based on your suggestions</i>
+      <form  onSubmit = {handleSubmit()} style = {{display: "flex", flexDirection: "column"}}>
+        <div>
+          <label style = {{color: "#BFC0C0", marginRight: "10px"}}>
+            Enter an artist
+          </label>   
+          <input type="text" name="artist" value = {searchArtist} onChange={e => setArtist(e.target.value)}/>
+        </div>
+        <div>
+          <label style = {{color: "#BFC0C0", marginRight: "10px"}}>
+            Enter a song
+          </label>   
+          <input type="text" name="artist" value = {searchArtist} onChange={e => setArtist(e.target.value)}/>
+        </div>
+        <div>
+          <label style = {{color: "#BFC0C0", marginRight: "10px"}}>
+            Enter a genre
+          </label>   
+          <input type="text" name="artist" value = {searchArtist} onChange={e => setArtist(e.target.value)}/>
+        </div>
+        <input type="submit" value="Submit" style= {{width: "10vh", alignSelf: "center"}}/>
+      </form>
+      <div id = "container">
+
+      <a id="button-1" className="button" href="http://localhost:8888#">Log in!<img id="arrow-hover" src="https://github.com/atloomer/atloomer.github.io/blob/master/img/iconmonstr-paper-plane-1-120.png?raw=true"/></a>
+        <div className="button" id="button-2" onClick = {getArtistsArray()}>
+          <div id="slide"></div>
+          <a href="#">Get a playlist</a>
+        </div>
+        
+      </div>
+      {queryDone? null:
+      <div className = "playlistDiv">
+        <i style = {{color: "#BFC0C0", marginBottom: "1vh"}}>Recommended Albums based on your suggestions</i>
         {suggestedAlbums.map((track, index) =>
-          <div key = {index}>
-          <b> {track.name}</b>
+          <div key = {index} >
+          <b style = {{color: "#BFC0C0"}}> {track.name}- {track.artists[0].name}</b>
           <br/>
           </div>)}
-
+        
       </div>
-
-      <div>
-        Now Playing: {nowPlaying}
-        <img src = {albumImage} style = {{width: 100}}/>
-      </div>
+      }
     </div>
   );
 
@@ -119,6 +116,16 @@ export default App;
 // Resources for queries https://developer.spotify.com/documentation/web-api/reference/search/search/
 //https://developer.spotify.com/console/get-search-item/?q=pop&type=artist&market=&limit=&offset=
 // to start server => node auth-server/authorization_code/app.js
+
+/*
+styling list:
+
+Background
+buttons
+input field
+typography
+
+*/
 
 /*
   core functionality pseudo code
