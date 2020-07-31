@@ -16,13 +16,12 @@
 .playlistDiv{
   padding: 15px;
   margin-left: 35%;
-  margin-top: -18vh;
+  margin-top: -10vh;
   background-color: #335145ff;
   width: 30%;
 }
 
 #container {
-  margin-top: -8vh;
   width: 100%;
   padding: 50px 0 150px 0;
   display: flex;
@@ -34,6 +33,7 @@
 /* Button Styles */
 
 .button {
+  padding: 5px;
   display: inline-flex;
   height: 40px;
   width: 150px;
@@ -71,6 +71,7 @@ a {
 }
 
 a#button-1:hover img {
+  
   width: 15px;
   opacity: 1;
   transform: translateX(50px);
@@ -80,6 +81,7 @@ a#button-1:hover img {
 /* Second Button */
 
 #button-2 {
+  padding: 5px;
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -113,4 +115,53 @@ a#button-1:hover img {
   align-self: center;
   width: 50%;
   color: white;
+}
+
+/* input part */
+
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 25%;
+  align-self: center;
+}
+
+
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid #9b9b9b;
+  outline: 0;
+  font-size: 1.3rem;
+  color: #fff;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  
+}
+
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #9b9b9b;
+}
+
+/* reset input */
+
+/* demo */
+body {
+  font-family: 'Poppins', sans-serif; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 1.5rem;
+  background-color:#222222;
 }

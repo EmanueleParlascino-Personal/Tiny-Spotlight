@@ -3,7 +3,13 @@ import Spotify from 'spotify-web-api-js'
 import './App.css';
 
 const spotifyWebAPI = new Spotify();
+ /*
+ for next session:
 
+ refactoring of the input fields to get rid of the multiple query and inrease efficiency
+ make separate components for the input fields 
+ make separate component for the playlist result
+ */ 
 
 function App() {
 
@@ -22,6 +28,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(params.access_token ? true : false)
   const [suggestedAlbums, setAlbums] = useState([])
   const [searchArtist, setArtist] = useState("")
+  const [searchSong, setSong] = useState("")
+  const [searchGenre, setGenre] = useState("")
   var queryDone = false
 
   if (isLoggedIn){
@@ -33,7 +41,7 @@ function App() {
     var queries = 0
     
     if(suggestedAlbums.length == 0){
-      spotifyWebAPI.getRecommendations({ seed_genres: ["jazz"],max_popularity: 1, limit: 20})
+      spotifyWebAPI.getRecommendations({ seed_genres: ["jazz"], max_popularity: 1, limit: 20})
         .then((response) => {
           if (suggestedAlbums.length === 0){
           setAlbums(response.tracks)
@@ -46,15 +54,13 @@ function App() {
     console.log("finished array", suggestedAlbums)  
     }  
 
-    function handleSubmit(value){
-      spotifyWebAPI.search(value, ["artist"], {limit:1})
-      .then((response) => {
-        console.log(response)
-      })
+
+    function getArtist(name){
+      spotifyWebAPI.search(name, ["artist"], {limit:1})
+        .then((response) => {
+          console.log("searched artist", response)
+        })
     }
-    
-  
-  
   return (
     <div className="App">
       <h1>Tiny Spotlight</h1>
@@ -62,27 +68,30 @@ function App() {
         there are countless songs that never get the appreciation they deserve. This is a place to try and give these artists some and for the people that are interested in finding them out.
       </p>
 
-      <form  onSubmit = {handleSubmit()} style = {{display: "flex", flexDirection: "column"}}>
-        <div>
-          <label style = {{color: "#BFC0C0", marginRight: "10px"}}>
-            Enter an artist
+      
+      <div className="form__group field">
+      
+          <input type="text" className="form__field" name="artist" value = {searchArtist} onChange={e => setArtist(e.target.value)} onClick = {() =>{}} />
+          <label className="form__label">
+           Artist
+          </label>
+          <button id="button-1" className="button" onClick = {getArtist(searchArtist)} text = "search"/> 
+      </div> 
+      <div className="form__group field"> 
+          <label className="form__label">
+           Song
           </label>   
-          <input type="text" name="artist" value = {searchArtist} onChange={e => setArtist(e.target.value)}/>
-        </div>
-        <div>
-          <label style = {{color: "#BFC0C0", marginRight: "10px"}}>
-            Enter a song
+          <input type="text" name="artist" className="form__field" value = {searchSong} onChange={e => setSong(e.target.value)}/>
+      </div>
+
+      <div className="form__group field">
+          <label className="form__label">
+            Genre
           </label>   
-          <input type="text" name="artist" value = {searchArtist} onChange={e => setArtist(e.target.value)}/>
-        </div>
-        <div>
-          <label style = {{color: "#BFC0C0", marginRight: "10px"}}>
-            Enter a genre
-          </label>   
-          <input type="text" name="artist" value = {searchArtist} onChange={e => setArtist(e.target.value)}/>
-        </div>
-        <input type="submit" value="Submit" style= {{width: "10vh", alignSelf: "center"}}/>
-      </form>
+          <input type="text" name="artist" className="form__field" value = {searchGenre} onChange={e => setGenre(e.target.value)}/>
+      </div>
+      
+      
       <div id = "container">
 
       <a id="button-1" className="button" href="http://localhost:8888#">Log in!<img id="arrow-hover" src="https://github.com/atloomer/atloomer.github.io/blob/master/img/iconmonstr-paper-plane-1-120.png?raw=true"/></a>
