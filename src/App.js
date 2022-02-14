@@ -137,4 +137,7 @@ typography
     }
     console.log("finished searching")
     console.log(artistsArray)
+
+    Basically make a function that take either a song, an artist or a genre as an argument
+    and return an array of songs based on the parameters and display them
     */
