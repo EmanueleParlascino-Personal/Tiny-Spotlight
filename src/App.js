@@ -51,20 +51,8 @@ function App() {
       <div id = "container">
 
       <a id="button-1" className="button" href="http://localhost:8888#">Log in!<img id="arrow-hover" src="https://github.com/atloomer/atloomer.github.io/blob/master/img/iconmonstr-paper-plane-1-120.png?raw=true"/></a>
-        <MainButton/>
-        
+        <MainButton />
       </div>
-      {
-      <div className = "playlistDiv">
-        <i style = {{color: "#BFC0C0", marginBottom: "1vh"}}>Recommended Albums based on your suggestions</i>
-        {suggestedAlbums.map((track, index) =>
-          <div key = {index} >
-          <b style = {{color: "#BFC0C0"}}> {track.name}- {track.artists[0].name}</b>
-          <br/>
-          </div>)}
-        
-      </div>
-      }
     </div>
   );
 
@@ -140,4 +128,8 @@ typography
 
     Basically make a function that take either a song, an artist or a genre as an argument
     and return an array of songs based on the parameters and display them
+
+
+    New plan, make seed out of the input => get a list of the songs from the seed => display the list
+                                  get the list => make a playlist out of it if result is good
     */

@@ -14,7 +14,7 @@ function MainButton(props){
         var queries = 0
         
         if(suggestedAlbums.length == 0){
-          spotifyWebAPI.getRecommendations({ seed_genres: ["jazz"], max_popularity: 1, limit: 20})
+          spotifyWebAPI.getRecommendations({ seed_genres: ["rock"], max_popularity: 1, limit: 20})
             .then((response) => {
               if (suggestedAlbums.length === 0){
               setAlbums(response.tracks)
@@ -28,10 +28,22 @@ function MainButton(props){
 
 
     return(
+      <div style = {{display:"flex"}}>
         <div className="button" id="button-2" onClick = {getArtistsArray()}>
-            <div id="slide"></div>
-            <a href="#">Get a playlist</a>
+          <div id="slide"></div>
+          <a href="#">Get a playlist</a>  
         </div>
+        {
+          <div className = "playlistDiv">
+            <i style = {{color: "#BFC0C0", marginBottom: "1vh"}}>Recommended Albums based on your suggestions</i>
+            {suggestedAlbums.map((track, index) =>
+              <div key = {index} >
+                <b style = {{color: "#BFC0C0"}}> {track.name}- {track.artists[0].name}</b>
+              <br/>
+              </div>)}
+          </div>
+        }
+      </div>  
     )
 }
 
