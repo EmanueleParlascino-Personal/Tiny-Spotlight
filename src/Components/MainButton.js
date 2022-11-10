@@ -6,42 +6,44 @@ const spotifyWebAPI = new Spotify();
 function MainButton(props){
 
     const [suggestedAlbums, setAlbums] = useState([])
-    const [searchArtist, setArtist] = useState("")
-    const [searchSong, setSong] = useState("")
-    const [searchGenre, setGenre] = useState("")
-    function getArtistsArray(){
-        var gotAlbums = false
-        var queries = 0
-        
-        if(suggestedAlbums.length == 0){
-          spotifyWebAPI.getRecommendations({ seed_genres: ["rock"], max_popularity: 1, limit: 20})
-            .then((response) => {
-              if (suggestedAlbums.length === 0){
-              setAlbums(response.tracks)
-              queries++
-              console.log("this is in the state", suggestedAlbums, queries)
-              gotAlbums = true}
-            })
-          }
-        console.log("finished array", suggestedAlbums)  
-        } 
+    
+    async function getArtistsArray(){
+      if(props.genre !== ""){
+        spotifyWebAPI.getRecommendations({ seed_genres: [props.genre], max_popularity: 10, limit: 20})
+        .then((response) => setAlbums(response.tracks))
+      }
+      else if(props.track !== ""){
+        let trackId = await spotifyWebAPI.searchTracks(props.track).then(response => response.tracks.items[0].id)
 
+        console.log(props.track)
+        spotifyWebAPI.getRecommendations({ seed_tracks:[ trackId], max_popularity: 10, limit: 20})
+          .then((response) => setAlbums(response.tracks))
+      }
+      else if(props.artist !== ""){
+        let artistId = await spotifyWebAPI.searchArtists(props.artist).then(response => response.artists.items[0].id)
+
+        spotifyWebAPI.getRecommendations({seed_artists: [artistId], max_popularity: 10, limit: 20})
+        .then((response) => setAlbums(response.tracks))
+      }
+
+    } 
 
     return(
-      <div style = {{display:"flex"}}>
-        <div className="button" id="button-2" onClick = {getArtistsArray()}>
+      <div className='second-half'>
+        <div className="button" id="button-2" onClick = {getArtistsArray}>
           <div id="slide"></div>
-          <a href="#">Get a playlist</a>  
+          <a href="#a">Get a playlist</a>  
         </div>
         {
+          suggestedAlbums.length > 0?
           <div className = "playlistDiv">
-            <i style = {{color: "#BFC0C0", marginBottom: "1vh"}}>Recommended Albums based on your suggestions</i>
+            <h4>Recommended Songs based on your suggestions</h4>
             {suggestedAlbums.map((track, index) =>
               <div key = {index} >
-                <b style = {{color: "#BFC0C0"}}> {track.name}- {track.artists[0].name}</b>
+                <iframe  src = {`https://open.spotify.com/embed/track/${track.id}?utm_source=generator&theme=0`} width="100%" height="100" frameBorder="0" allowFullScreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" ></iframe>
               <br/>
               </div>)}
-          </div>
+          </div>:null
         }
       </div>  
     )

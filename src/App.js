@@ -1,7 +1,7 @@
 import React, {useState, useEffect}from 'react';
 import Spotify from 'spotify-web-api-js'
 import './App.css';
-import MainButton from './Components/MainButton'
+
 import Inputs from './Components/Inputs'
 
 const spotifyWebAPI = new Spotify();
@@ -27,39 +27,33 @@ function App() {
   const params = getHashParams()
 
   const [isLoggedIn, setIsLoggedIn] = useState(params.access_token ? true : false)
-  const [suggestedAlbums, setAlbums] = useState([])
-  const [searchArtist, setArtist] = useState("")
-  const [searchSong, setSong] = useState("")
-  const [searchGenre, setGenre] = useState("")
-  
 
   if (isLoggedIn){
     spotifyWebAPI.setAccessToken(params.access_token)
   }  
 
+  useEffect(()=> {
+    setIsLoggedIn(params.access_token? false:true)
+    console.log(isLoggedIn)
+  },[isLoggedIn, params.access_token])
+
   
   return (
     <div className="App">
-      <h1>Tiny Spotlight</h1>
-      <p className = "statement">In today's musical landscape the competion is ruthless, it's not easy for and indipendent artists to get a chance at recognition and because of that
-        there are countless songs that never get the appreciation they deserve. This is a place to try and give these artists some and for the people that are interested in finding them out.
-      </p>
-
-      <Inputs/>
-     
-      
-      <div id = "container">
-
-      <a id="button-1" className="button" href="http://localhost:8888#">Log in!<img id="arrow-hover" src="https://github.com/atloomer/atloomer.github.io/blob/master/img/iconmonstr-paper-plane-1-120.png?raw=true"/></a>
-        <MainButton />
-      </div>
+    <h1>Tiny Spotlight</h1>
+      <div>
+        {isLoggedIn?
+        <a  id="button-1" 
+            className="button" 
+            href="http://localhost:8888#">Log in!
+            <img id="arrow-hover" src="https://github.com/atloomer/atloomer.github.io/blob/master/img/iconmonstr-paper-plane-1-120.png?raw=true" alt = "img"/></a>
+        : <Inputs/>} 
+      </div>   
     </div>
   );
 
   
 }
-
-
 
 export default App;
 
